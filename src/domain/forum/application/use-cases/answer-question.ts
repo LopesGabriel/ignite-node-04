@@ -2,7 +2,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
 
-interface AnsweQuestionUseCaseArgs {
+interface AnswerQuestionUseCaseArgs {
   instructorId: string
   questionId: string
   content: string
@@ -15,7 +15,7 @@ export class AnswerQuestionUseCase {
     instructorId,
     questionId,
     content,
-  }: AnsweQuestionUseCaseArgs) {
+  }: AnswerQuestionUseCaseArgs) {
     const answer = Answer.create({
       content,
       authorId: new UniqueEntityId(instructorId),

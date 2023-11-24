@@ -1,11 +1,9 @@
 import { AnswerQuestionUseCase } from './answer-question'
 import { AnswersRepository } from '../repositories/answers-repository'
-import { Answer } from '../forum/enterprise/entities/answer'
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
 
 const fakeAnswersRepository: AnswersRepository = {
-  create: async (answer: Answer) => {
-    console.log('Saving answer', answer.id)
-  },
+  create: async (answer: Answer) => {},
 }
 
 test('create an answer', async () => {
