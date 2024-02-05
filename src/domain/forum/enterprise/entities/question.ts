@@ -1,8 +1,9 @@
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { Slug } from './value-objects/slug'
-import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import dayjs from 'dayjs'
+import { QuestionAttachment } from './question-attachment'
 
 export interface QuestionProps {
   authorId: UniqueEntityId
@@ -10,11 +11,12 @@ export interface QuestionProps {
   title: string
   content: string
   slug: Slug
+  attachments: QuestionAttachment[]
   createdAt: Date
   updatedAt: Date | null
 }
 
-export class Question extends Entity<QuestionProps> {
+export class Question extends AggregateRoot<QuestionProps> {
   get title() {
     return this.props.title
   }
@@ -36,6 +38,14 @@ export class Question extends Entity<QuestionProps> {
 
   get slug() {
     return this.props.slug
+  }
+
+  get attachments() {
+    return this.props.attachments
+  }
+
+  set attachments(attachments: QuestionAttachment[]) {
+    this.props.attachments = attachments
   }
 
   get authorId() {
@@ -70,7 +80,7 @@ export class Question extends Entity<QuestionProps> {
   static create(
     props: Optional<
       QuestionProps,
-      'createdAt' | 'slug' | 'bestAnswerId' | 'updatedAt'
+      'createdAt' | 'slug' | 'bestAnswerId' | 'updatedAt' | 'attachments'
     >,
     id?: UniqueEntityId,
   ) {
@@ -81,6 +91,7 @@ export class Question extends Entity<QuestionProps> {
         createdAt: props.createdAt ?? new Date(),
         bestAnswerId: props.bestAnswerId ?? null,
         updatedAt: props.updatedAt ?? null,
+        attachments: props.attachments ?? [],
       },
       id,
     )
