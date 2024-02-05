@@ -2,6 +2,7 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { GetQuestionBySlugUseCase } from './get-question-by-slug'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
+import { Question } from '../../enterprise/entities/question'
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
@@ -27,9 +28,11 @@ describe('Get Question By Slug', () => {
     const result = await sut.execute({ slug: newQuestion.slug.value })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value.question.content).toEqual('Example content')
+    expect((result.value as { question: Question }).question.content).toEqual(
+      'Example content',
+    )
     expect(inMemoryQuestionsRepository.items[0].id).toEqual(
-      result.value.question.id,
+      (result.value as { question: Question }).question.id,
     )
   })
 })
